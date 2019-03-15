@@ -1,8 +1,8 @@
 Predicting the Market
-In this tutorial, weíll be exploring how we can use Linear Regression to predict stock prices thirty days into the future. You probably wonít get rich with this algorithm, but I still think it is super cool to watch your computer predict the price of your favorite stocks.
+We‚Äôll be exploring how we can use Linear Regression to predict stock prices thirty days into the future. You probably won‚Äôt get rich with this algorithm, but I still think it is super cool to watch your computer predict the price of your favorite stocks.
 
 Getting Started
-Create a new stock.py file. In our project, weíll need to import a few dependencies. If you donít have them installed, you will have to run pip install [dependency] on the command line.
+Create a new stock.py file. In our project, we‚Äôll need to import a few dependencies. If you don‚Äôt have them installed, you will have to run pip install [dependency] on the command line.
 
 import quandl
 import pandas as pd
@@ -45,7 +45,7 @@ Date
 However, in our case, we only need the Adj. Close column for our predictions.
 
 df = df[['Adj. Close']]
-Now, letís set up our forecasting. We want to predict 30 days into the future, so weíll set a variable forecast_out equal to that. Then, we need to create a new column in our dataframe which serves as our label, which, in machine learning, is known as our output. To fill our output data with data to be trained upon, we will set our  prediction column equal to our Adj. Close column, but shifted 30 units up.
+Now, let‚Äôs set up our forecasting. We want to predict 30 days into the future, so we‚Äôll set a variable forecast_out equal to that. Then, we need to create a new column in our dataframe which serves as our label, which, in machine learning, is known as our output. To fill our output data with data to be trained upon, we will set our  prediction column equal to our Adj. Close column, but shifted 30 units up.
 
 forecast_out = int(30) # predicting 30 days into future
 df['Prediction'] = df[['Adj. Close']].shift(-forecast_out) #  label column with data shifted 30 units up
@@ -56,19 +56,19 @@ Our X will be an array consisting of our Adj. Close values, and so we want to dr
 
 X = np.array(df.drop(['Prediction'], 1))
 X = preprocessing.scale(X)
-Now, if you printed the dataframe after we created the Prediction column, you saw that for the last 30 days, there were NaNs, or no label data. Weíll set a new input variable to these days and remove them from the X array.
+Now, if you printed the dataframe after we created the Prediction column, you saw that for the last 30 days, there were NaNs, or no label data. We‚Äôll set a new input variable to these days and remove them from the X array.
 
 X_forecast = X[-forecast_out:] # set X_forecast equal to last 30
 X = X[:-forecast_out] # remove last 30 from X
-To define our y, or output, we will set it equal to our array of the Prediction values and remove the last 30 days where we donít have any pricing data.
+To define our y, or output, we will set it equal to our array of the Prediction values and remove the last 30 days where we don‚Äôt have any pricing data.
 
 y = np.array(df['Prediction'])
 y = y[:-forecast_out]
 Linear Regression
-Finally, prediction time! First, weíll want to split our testing and training data sets, and set our test_size equal to 20% of the data. The training set contains our known outputs, or prices, that our model learns on, and our test dataset is to test our modelís predictions based on what it learned from the training set.
+Finally, prediction time! First, we‚Äôll want to split our testing and training data sets, and set our test_size equal to 20% of the data. The training set contains our known outputs, or prices, that our model learns on, and our test dataset is to test our model‚Äôs predictions based on what it learned from the training set.
 
 X_train, X_test, y_train, y_test = cross_validation.train_test_split(X, y, test_size = 0.2)
-Now, we can initiate our Linear Regression model and fit it with training data. After training, to test the accuracy of the model, we ìscoreî it using the testing data. We can get an r^2 (coefficient of determination) reading based on how far the predicted price was compared to the actual price in the test data set. When I ran the algorithm, I usually got a value of over 90%.
+Now, we can initiate our Linear Regression model and fit it with training data. After training, to test the accuracy of the model, we ‚Äúscore‚Äù it using the testing data. We can get an r^2 (coefficient of determination) reading based on how far the predicted price was compared to the actual price in the test data set. When I ran the algorithm, I usually got a value of over 90%.
 
 # Training
 clf = LinearRegression()
@@ -80,7 +80,7 @@ Lastly, we can to predict our X_forecast values:
 
 forecast_prediction = clf.predict(X_forecast)
 print(forecast_prediction)
-Hereís what I got for AMZN stock (12/19/17):
+Here‚Äôs what I got for AMZN stock (12/19/17):
 
 ('confidence: ', 0.989032635604704)
 [ 1163.89768621  1166.50500319  1172.69608254  1168.7695255   1172.7376334
